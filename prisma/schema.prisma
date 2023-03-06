@@ -9,71 +9,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model employee {
+model user {
   id         String   @id @default(uuid())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  name       String
+  firstName       String
+  lastName String?
   email      String   @unique
   password   String
   profilePic String   @default("https://www.w3schools.com/howto/img_avatar.png")
   phone      String?
-  job job[]
-  bid bid[] 
-}
-
-model employer {
-  id         String   @id @default(uuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  name       String
-  secondName String?
-  email      String   @unique
-  password   String
-  profilePic String   @default("https://www.w3schools.com/howto/img_avatar.png")
-  phone      String?
-  job job[]
-}
-
-model job {
-  id                String   @id @default(uuid())
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  title             String
-  description       String?
-  skills            String[]
-  employerId        String
-  favoritedBy       String?
-  fav       employee? @relation(fields: [favoritedBy], references: [id])
-  belongsToEmployer employer @relation(fields: [employerId], references: [id] )
-  //employee can add job to favorite
-  isFavorite     Boolean  @default(false)
-  bid bid[]
-}
-
-
-model bid {
-  id                String      @id @default(uuid())
-  description       String
-  name              String
-  belongToEmployee  String
-  job               String
-  isSelected     Boolean  @default(false)
-  belongsToEmployee employee @relation(fields: [belongToEmployee], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  belongToJob       String    
-  belongsToJob      job      @relation(fields: [belongToJob], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  message message[]
-  // @@id([belongToEmployee, belongToJob])
-}
-
-model message {
-  id         String   @id @default(uuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  message    String
-  sender     String
-  receiver   String
-  bid        String
-  belongToBid bid @relation(fields: [bid], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 

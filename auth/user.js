@@ -5,44 +5,45 @@ import prisma from '../script.js';
 const router = express.Router();
 
 router.post('/register', async (req, res)=>{
-    const { name, email, password, phone } = req.body;
-    const employee = await prisma.employee.create({
+    const { firstName, lastName, email, password, phone } = req.body;
+    const user = await prisma.user.create({
         data: {
-            name,
+            firstName,
+            lastName,
             email,
             password,
             phone
         },
         select:{
             id: true,
-            name: true,
+            firstName: true,
             email: true,
         }
     })
-    res.json(employee);
-}
+    res.json(user);
+    }
 )
 
 
 router.post('/login', async (req, res)=>{
     const { email, password } = req.body;
-    const employee = await prisma.employee.findUnique({
+    const user = await prisma.user.findUnique({
         where: {
             email: email
         }
     })
-    if(employee?.password === password){
-        res.json(employee);
+    if(user?.password === password){
+        res.json(user);
     }else{
         res.json({message: 'Wrong credentials'});
     }
 }
 )
 
-//get all employees
+//get all users
 router.get('/', async (req, res)=>{
-    const employees = await prisma.employee.findMany();
-    res.json(employees);
+    const users = await prisma.user.findMany();
+    res.json(users);
 }
 )
 
