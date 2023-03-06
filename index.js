@@ -35,7 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/', userRouter);
 
-const port= 9000 || process.env.PORT
+const port= 9000 || process.env.PGPORT
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
