@@ -2,11 +2,11 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import userRouter from './auth/user.js';
+import productRouter from './routes/products.js';
 
 
 
 dotenv.config();
-
 
 const app = express();
 
@@ -34,6 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use('/', userRouter);
+app.use('/products', productRouter);
 
 const port= 9000 || process.env.PGPORT
 
