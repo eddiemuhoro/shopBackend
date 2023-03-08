@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import userRouter from './auth/user.js';
 import productRouter from './routes/products.js';
-
+import bodyParser from 'body-parser';
 
 
 dotenv.config();
@@ -29,8 +29,9 @@ app.use(function(req, res, next) {
 //remove cors error while postong data
 app.options('*', cors());
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+app.use(bodyParser.json({limit: '50mb', extended: true}))
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
 
 
 app.use('/', userRouter);

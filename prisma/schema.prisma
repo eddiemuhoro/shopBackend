@@ -20,6 +20,7 @@ model user {
   profilePic String   @default("https://www.w3schools.com/howto/img_avatar.png")
   phone      String?
   product   product[]
+  wishlist   wishlist[]
 }
 
 model product {
@@ -27,10 +28,21 @@ model product {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   name       String
-  price      Float
+  price      String
   description String
-  image      String @default("https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
+  image      String? @default("https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
   category   String
   seller     user     @relation(fields: [sellerId], references: [id])
   sellerId   String 
+  wishlist   wishlist[]
+}
+
+model wishlist {
+  id         String   @id @default(uuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  product    product  @relation(fields: [productId], references: [id], onDelete: Cascade,   onUpdate: Cascade)
+  productId  String
+  user       user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId     String
 }
