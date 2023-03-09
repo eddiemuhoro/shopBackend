@@ -57,49 +57,56 @@ router.delete('/:id', async (req, res)=>{
 
 //adding a product to wishlist
 router.post('/wishlist', async (req, res)=>{
-    const { userId, productId } = req.body;
+    const { userId, productId , name, price, description, image} = req.body;
 
     const product = await prisma.wishlist.create({
         data: {
             userId,
-            productId
+            productId,
+            name,
+            price,
+            description,
+            image
+
         }
     })
-   
-        
+
+          
     res.json(product);
     }
 )
 
+
+
 //delete user's product from wishlist
 router.delete('/wishlist/:id', async (req, res)=>{
-    const { id } = req.params;
-    const product = await prisma.wishlist.delete({
+    const product = await prisma.wishlist.deleteMany({
         where: {
-            productId: 'f24d5a9a-d662-4d8d-b540-3415c393fb15'
+            productId: String(req.params.id)
         }
     })
     res.json(product);
     }
 ) 
-//get all products in wishlist for a specific user
+
+//check if product is in wishlist
 router.get('/wishlist/:id', async (req, res)=>{
     const { id } = req.params;
     const product = await prisma.wishlist.findMany({
         where: {
-            userId: String(req.params.id)
+            productId: String(req.params.id),
         }
     })
     res.json(product);
     }
 )
 
-//get wishlist based on product id
-router.get('/wishlist/product/:id', async (req, res)=>{
+//get all products in wishlist for a specific user
+router.get('/wishlist/user/:id', async (req, res)=>{
     const { id } = req.params;
     const product = await prisma.wishlist.findMany({
         where: {
-            productId: String(req.params.id)
+            userId: String(req.params.id)
         }
     })
     res.json(product);
