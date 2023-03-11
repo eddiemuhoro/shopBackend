@@ -146,27 +146,22 @@ router.post('/cart', async (req, res)=>{
     }
 )
 
-// PUT (update) the quantity of an existing cart item by ID
-router.put('/:id/add', async (req, res) => {
+// adding quantity to cart
+router.put('/cart/:id', async (req, res)=>{
     const { id } = req.params;
-    try {
-      const cartItem = await prisma.cart.findUnique({
-        where: { productId: parseInt(id) },
-      });
-      if (!cartItem) {
-        return res.status(404).json({ error: 'Cart item not found' });
-      }
-      const updatedCartItem = await prisma.cartItem.update({
+    const { quantity } = req.body;
+    const product = await prisma.cart.update({
         where: {
-            productId: parseInt(id),
+           id: String(req.params.id)
         },
-        data: { quantity: cartItem.quantity + 1 },
-      });
-      res.json(updatedCartItem);
-    } catch (error) {
-      res.status(500).json({ error: 'Unable to update cart item quantity' });
+        data: {
+            quantity
+        }
+    })
+    res.json(product);
     }
-  });
+)
+
   
 
 //fetch all products in cart for a specific user
