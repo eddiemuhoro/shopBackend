@@ -5,13 +5,14 @@ import prisma from '../script.js';
 const router = express.Router();
 
 router.post('/', async (req, res)=>{
-    const { category, name, description, price, sellerId, image } = req.body;
+    const { category, name, description, price, quantity,  sellerId, image } = req.body;
     const product = await prisma.product.create({
         data: {
             category,
             name,
             description,
             price,
+            quantity,
             sellerId,
             image
         }
@@ -31,12 +32,36 @@ router.get('/', async (req, res)=>{
     }
 )
 
+//get product by id
+router.get('/:id', async (req, res)=>{
+    const { id } = req.params;
+    const product = await prisma.product.findUnique({
+        where: {
+            id: String(id)
+        }
+    })
+    res.json(product);
+    }
+)
+
 //get product for a specific seller
 router.get('/:id', async (req, res)=>{
     const { id } = req.params;
     const product = await prisma.product.findMany({
         where: {
             sellerId: String(req.params.id)
+        }
+    })
+    res.json(product);
+    }
+)
+
+//GET A PRODUCT BY CATEGORY
+router.get('/category/:category', async (req, res)=>{
+    const { category } = req.params;
+    const product = await prisma.product.findMany({
+        where: {
+            category: String(category)
         }
     })
     res.json(product);
@@ -69,8 +94,6 @@ router.post('/wishlist', async (req, res)=>{
             image
         }
     })
-
-          
     res.json(product);
     }
 )
@@ -179,6 +202,29 @@ router.get('/cart/user/:id', async (req, res)=>{
 //get all pruducts in cart
 router.get('/cart', async (req, res)=>{
     const product = await prisma.cart.findMany();
+    res.json(product);
+    }
+)
+
+//get cart product based on product id
+router.get('/cart/:id', async (req, res)=>{
+    const { id } = req.params;
+    const product = await prisma.cart.findMany({
+        where: {
+            productId: String(req.params.id)
+        }
+    })
+    res.json(product);
+    }
+)
+
+//delete user's product from cart
+router.delete('/cart/:id', async (req, res)=>{
+    const product = await prisma.cart.deleteMany({
+        where: {
+            productId: String(req.params.id)
+        }
+    })
     res.json(product);
     }
 )
