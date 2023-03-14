@@ -17,7 +17,9 @@ router.post('/register', async (req, res)=>{
         select:{
             id: true,
             firstName: true,
+            lastName: true,
             email: true,
+            phone: true
         }
     })
     res.json(user);
