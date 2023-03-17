@@ -29,7 +29,7 @@ const generateToken = async (req, res, next) => {
 }
 
 router.post('/', generateToken,  async (req, res) => {
-    const phone = req.body.phone;
+    const phone = req.body.phone.replace(/^0+/, '');
     const amount = req.body.amount;
 
     const date = new Date()
@@ -89,6 +89,7 @@ router.post('/callback', (req, res) => {
     console.log(callbackData)
 }
 )
+
 
 
 
