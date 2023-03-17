@@ -60,7 +60,7 @@ router.post('/', generateToken,  async (req, res) => {
            PartyA:`254${phone}`,    
             PartyB:shortcode,    
           PhoneNumber:`254${phone}`,    
-          CallBackURL:"https://mydomain.com/pat",    
+          CallBackURL:"https://odd-slip-ant.cyclic.app/daraja/callback",    
           AccountReference:`254${phone}`,    
           TransactionDesc:"Test"
          },
@@ -80,7 +80,14 @@ router.post('/', generateToken,  async (req, res) => {
 
     })
  
-    })
+    }
+)
+
+
+router.post('/callback', (req, res) => {
+    const callbackData = req.body;
+}
+)
 
 
 
