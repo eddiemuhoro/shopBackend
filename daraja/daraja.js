@@ -86,6 +86,7 @@ router.post('/', generateToken,  async (req, res) => {
 
 router.post('/callback', (req, res) => {
     const callbackData = req.body;
+    console.log(callbackData)
 }
 )
 
