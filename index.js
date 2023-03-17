@@ -4,7 +4,7 @@ import cors from 'cors';
 import userRouter from './auth/user.js';
 import productRouter from './routes/products.js';
 import bodyParser from 'body-parser';
-
+import routerDaraja from './daraja/daraja.js';
 
 dotenv.config();
 
@@ -36,6 +36,9 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}))
 
 app.use('/', userRouter);
 app.use('/products', productRouter);
+app.use('/daraja', routerDaraja);
+
+
 
 const port= 9000 || process.env.PGPORT
 
