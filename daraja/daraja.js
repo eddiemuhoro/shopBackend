@@ -3,7 +3,6 @@ import axios from 'axios';
 const router = express.Router();
 
 
-
 //middleware function to generate access token
 var token;
 
@@ -68,9 +67,9 @@ router.post('/', generateToken,  async (req, res) => {
             headers: {
                 Authorization: `Bearer ${token}`
             }
-        }
-            
+        }       
     )
+
     .then((response) => {
         console.log(response.data)
         res.send(response.data)
@@ -85,10 +84,14 @@ router.post('/', generateToken,  async (req, res) => {
 
 
 router.post('/callback', (req, res) => {
-    const callbackData = req.body;
-    console.log(callbackData)
-}
-)
+    console.log(req.body)
+    res.send(req.body)
+})
+
+router.get('/callback', (req, res) => {
+    console.log(req.body)
+    res.send('req.body')
+})
 
 
 
