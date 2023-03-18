@@ -228,4 +228,38 @@ router.delete('/cart/:id', async (req, res)=>{
     res.json(product);
     }
 )
+
+
+//orders routes
+//add product to orders
+router.post('/orders', async (req, res)=>{
+    const { userId, productId , name, price, delivery, image, quantity} = req.body;
+
+    const product = await prisma.orders.create({
+        data: {
+            userId,
+            productId,
+            name,
+            price,
+            image,
+            quantity,
+            delivery
+        }
+    })
+    res.json(product);
+    }
+)
+
+//get all products in orders for a specific user
+router.get('/orders/user/:id', async (req, res)=>{
+    const { id } = req.params;
+    const product = await prisma.orders.findMany({
+        where: {
+            userId: String(req.params.id)
+        }
+    })
+    res.json(product);
+    }
+)
+
 export default router;
