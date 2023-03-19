@@ -35,6 +35,7 @@ model product {
   description String
   image      String? @default("https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
   category   String
+  sellerName String @default("Ken")
   seller     user     @relation(fields: [sellerId], references: [id])
   sellerId   String 
   wishlist   wishlist[]
@@ -81,7 +82,7 @@ model orders{
   delivery  String  @default("pending")
   image     String? @default("https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
   quantity   Int     @default(1)
-  product    product  @relation(fields: [productId], references: [id], onDelete: Cascade,   onUpdate: Cascade)
+  product    product  @relation(fields: [productId], references: [id], onUpdate: Cascade)
   productId  String
   user       user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId     String
