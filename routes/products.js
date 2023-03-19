@@ -5,9 +5,10 @@ import prisma from '../script.js';
 const router = express.Router();
 
 router.post('/', async (req, res)=>{
-    const { category, name, description, price, quantity,  sellerId, image } = req.body;
+    const { category, name, description, price, quantity,  sellerId, sellerName, image } = req.body;
     const product = await prisma.product.create({
         data: {
+            sellerName,
             category,
             name,
             description,
@@ -45,7 +46,7 @@ router.get('/:id', async (req, res)=>{
 )
 
 //get product for a specific seller
-router.get('/:id', async (req, res)=>{
+router.get('/seller/:id', async (req, res)=>{
     const { id } = req.params;
     const product = await prisma.product.findMany({
         where: {
@@ -256,6 +257,22 @@ router.get('/orders/user/:id', async (req, res)=>{
     const product = await prisma.orders.findMany({
         where: {
             userId: String(req.params.id)
+        }
+    })
+    res.json(product);
+    }
+)
+
+//update product qunatity to 0 after order is placed
+router.put('/orders/:id', async (req, res)=>{
+    const { id } = req.params;
+    const { quantity } = req.body;
+    const product = await prisma.product.update({
+        where: {
+           id: String(req.params.id)
+        },
+        data: {
+            quantity
         }
     })
     res.json(product);
