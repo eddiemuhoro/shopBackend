@@ -1,7 +1,7 @@
 import express from 'express';
-
+import jwt from 'jsonwebtoken';
 import prisma from '../script.js';
-
+// how to generate token after a register using name , email and password using nodejs and prisma
 const router = express.Router();
 
 router.post('/register', async (req, res)=>{
@@ -23,8 +23,28 @@ router.post('/register', async (req, res)=>{
         }
     })
     res.json(user);
+    const secretKey = process.env.JWT_SECRET;
+   const payload = {userId : user.id};
+   const options = { expiresIn: '1h' };
+    const token = jwt.sign(payload, secretKey, options);
+   //return the token
+    console.log(token);
     }
 )
+
+//middleware to verify token
+export const verifyToken = (req, res, next)=>{
+   const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
+    if(token == null) return res.sendStatus(401);
+    jwt.verify(token, process.env.JWT_SECRET, (err, user)=>{
+        if(err) return res.sendStatus(403);
+        req.userId = user.userId;
+        next();
+    }
+    )
+}
+
 
 
 router.post('/login', async (req, res)=>{

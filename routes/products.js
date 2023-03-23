@@ -1,5 +1,4 @@
 import express from 'express';
-
 import prisma from '../script.js';
 
 const router = express.Router();
@@ -251,6 +250,17 @@ router.post('/orders', async (req, res)=>{
     }
 )
 
+//remove product from orders
+router.delete('/orders/delete/:id', async (req, res)=>{
+    const product = await prisma.orders.deleteMany({
+        where: {
+            productId: String(req.params.id)
+        }
+    })
+    res.json(product);
+    }
+)
+
 //get all products in orders for a specific user
 router.get('/orders/user/:id', async (req, res)=>{
     const { id } = req.params;
@@ -263,8 +273,20 @@ router.get('/orders/user/:id', async (req, res)=>{
     }
 )
 
+//get all products in orders by product id
+router.get('/orders/:id', async (req, res)=>{
+    const { id } = req.params;
+    const product = await prisma.orders.findMany({
+        where: {
+            productId: String(req.params.id)
+        }
+    })
+    res.json(product);
+    }
+)
+
 //update product qunatity to 0 after order is placed
-router.put('/orders/:id', async (req, res)=>{
+router.put('/orders/product/:id', async (req, res)=>{
     const { id } = req.params;
     const { quantity } = req.body;
     const product = await prisma.product.update({
