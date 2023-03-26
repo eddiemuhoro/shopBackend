@@ -23,6 +23,26 @@ router.post('/register', async (req, res)=>{
         }
     })
     res.json(user);
+
+    //create profile
+    const profile = await prisma.profile.create({
+        data: {
+            bio: '',
+            profilePic: '',
+            phone: user.phone,
+            userId: user.id
+    }
+})
+
+
+
+
+
+    
+
+
+
+
     const secretKey = process.env.JWT_SECRET;
    const payload = {userId : user.id};
    const options = { expiresIn: '1h' };
