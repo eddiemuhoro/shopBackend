@@ -30,9 +30,9 @@ model profile{
   id         String   @id @default(uuid())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  bio     String?
+  bio     String? @default("I am a new user")
   profilePic String?   @default("https://www.w3schools.com/howto/img_avatar.png")
-  phone      String?
+  phone      String? @default("not set")
   user       user     @relation(fields: [userId], references: [id])
   userId     String
 }
