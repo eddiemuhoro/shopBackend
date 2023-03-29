@@ -10,92 +10,107 @@ datasource db {
 }
 
 model user {
-  id         String   @id @default(uuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  firstName       String
-  lastName String?
-  email      String   @unique
+  id         String     @id @default(uuid())
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+  firstName  String
+  lastName   String?
+  email      String     @unique
   password   String
-  profilePic String   @default("https://www.w3schools.com/howto/img_avatar.png")
+  profilePic String     @default("https://www.w3schools.com/howto/img_avatar.png")
   phone      String?
-  product   product[]
+  product    product[]
   wishlist   wishlist[]
-  cart   cart[]
-  orders   orders[]
+  cart       cart[]
+  orders     orders[]
   profile    profile[]
+  test       test[]
 }
 
-model profile{
+model profile {
   id         String   @id @default(uuid())
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  bio     String? @default("I am a new user")
-  profilePic String?   @default("https://www.w3schools.com/howto/img_avatar.png")
-  phone      String? @default("not set")
-  user       user     @relation(fields: [userId], references: [id] , onDelete: Cascade, onUpdate: Cascade)
+  bio        String?  @default("I am a new user")
+  profilePic String?  @default("https://www.w3schools.com/howto/img_avatar.png")
+  phone      String?  @default("not set")
+  user       user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId     String
 }
 
 model product {
-  id         String   @id @default(uuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  name       String
-  price      Int
-  quantity   Int     @default(1)
+  id          String     @id @default(uuid())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  name        String
+  price       Int
+  quantity    Int        @default(1)
   description String
-  image      String? @default("https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
-  category   String
-  sellerName String @default("Ken")
-  seller     user     @relation(fields: [sellerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  sellerId   String 
-  wishlist   wishlist[]
-  cart   cart[]
-  orders   orders[]
+  image       String?    @default("https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
+  category    String
+  sellerName  String     @default("Ken")
+  seller      user       @relation(fields: [sellerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  sellerId    String
+  wishlist    wishlist[]
+  cart        cart[]
+  orders      orders[]
+}
+
+model test {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  price       Int
+  description String
+  category    String
+  quantity    Int      @default(1)
+  images      String[]
+  sellerName  String   @default("Ken")
+  seller      user     @relation(fields: [sellerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  sellerId    String
 }
 
 model wishlist {
-  id         String   @id @default(uuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  name      String
-  price     Int
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  price       Int
   description String
-  image     String? @default("https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
-  product    product  @relation(fields: [productId], references: [id], onDelete: Cascade,   onUpdate: Cascade)
-  productId  String
-  user       user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId     String
+  image       String?  @default("https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
+  product     product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId   String
+  user        user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId      String
 }
 
 model cart {
-  id         String   @id @default(uuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  name      String
-  price     Int
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  name        String
+  price       Int
   description String
-  image     String? @default("https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
-  quantity   Int     @default(1)
-  product    product  @relation(fields: [productId], references: [id], onDelete: Cascade,   onUpdate: Cascade)
-  productId  String
-  user       user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId     String
+  image       String?  @default("https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
+  quantity    Int      @default(1)
+  product     product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId   String
+  user        user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId      String
 }
 
-
-model orders{
-  id         String   @id @default(uuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+model orders {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   name      String
   price     Int
-  delivery  String  @default("pending")
-  image     String? @default("https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
-  quantity   Int     @default(1)
-  product    product  @relation(fields: [productId], references: [id], onDelete: Cascade,  onUpdate: Cascade)
-  productId  String
-  user       user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId     String
+  delivery  String   @default("pending")
+  image     String?  @default("https://images.unsplash.com/photo-1676809767144-d24ba6178421?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80")
+  quantity  Int      @default(1)
+  product   product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId String
+  user      user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId    String
 }
