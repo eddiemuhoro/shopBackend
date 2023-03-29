@@ -21,6 +21,24 @@ router.post('/', async (req, res)=>{
     }
 )
 
+router.post('/test', async (req, res)=>{
+    const {  name, images, price, description, category, sellerName, sellerId, quantity } = req.body;
+    const product = await prisma.test.create({
+        data: {
+            name,
+            price,
+            description,
+            category,
+            images,
+            quantity,
+            sellerName,
+            sellerId
+        }
+    })
+    res.json(product);
+    }
+)
+
 //get all products using error handling
 router.get('/', async (req, res)=>{
         try{
