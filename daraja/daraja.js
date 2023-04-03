@@ -7,8 +7,8 @@ const router = express.Router();
 var token;
 
 const generateToken = async (req, res, next) => {
-    const secretKey ='fC7ZAezPOuDTINAM'
-    const consumerKey = 'UbyuVPqNRjAoELu3AnQybvSIXafPckqt'
+    const secretKey =process.env.SECRET_KEY
+    const consumerKey = process.env.CONSUMER_KEY
     const auth = new Buffer.from(consumerKey + ':' + secretKey).toString('base64');
     await axios.get('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials',
     {
