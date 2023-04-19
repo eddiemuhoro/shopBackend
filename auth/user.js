@@ -14,15 +14,8 @@ router.post('/register', async (req, res)=>{
             password,
             phone
         },
-        select:{
-            id: true,
-            firstName: true,
-            lastName: true,
-            email: true,
-            phone: true
-        }
     })
-    res.json(user);
+   
 
     //create profile
     const profile = await prisma.profile.create({
@@ -34,19 +27,12 @@ router.post('/register', async (req, res)=>{
     }
 })
 
-
-
-
-
-    
-
-
-
-
     const secretKey = process.env.JWT_SECRET;
    const payload = {userId : user.id};
    const options = { expiresIn: '1h' };
     const token = jwt.sign(payload, secretKey, options);
+    //return the token to be stored in the frontend
+    res.json({token});
    //return the token
     console.log(token);
     }

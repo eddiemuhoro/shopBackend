@@ -7,8 +7,8 @@ const router = express.Router();
 var token;
 
 const generateToken = async (req, res, next) => {
-    const secretKey =process.env.SECRET_KEY
-    const consumerKey = process.env.CONSUMER_KEY
+    const secretKey ='fC7ZAezPOuDTINAM'
+    const consumerKey = 'UbyuVPqNRjAoELu3AnQybvSIXafPckqt'
     const auth = new Buffer.from(consumerKey + ':' + secretKey).toString('base64');
     await axios.get('https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials',
     {
@@ -59,7 +59,7 @@ router.post('/', generateToken,  async (req, res) => {
            PartyA:`254${phone}`,    
             PartyB:shortcode,    
           PhoneNumber:`254${phone}`,    
-          CallBackURL:"https://odd-slip-ant.cyclic.app/daraja/callback",    
+          CallBackURL:"https://usella.up.railway.app/daraja/",    
           AccountReference:`254${phone}`,    
           TransactionDesc:"Test"
          },
@@ -86,8 +86,10 @@ router.post('/', generateToken,  async (req, res) => {
 
 
 router.post('/callback', (req, res) => {
-    console.log(req.body)
-    res.send(req.body)
+    const callbackData = req.body; 
+    console.log(callbackData.Body);
+     if (!callbackData.Body.stkCallback.CallbackMetadata) { console.log(callbackData.Body); return res.json ("ok"); } 
+     console.log(callbackData.Body.stkCallback.CallbackMetadata);
 })
 
 router.get('/callback', (req, res) => {

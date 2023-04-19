@@ -182,14 +182,12 @@ router.post('/cart', async (req, res)=>{
         }
     })
 
-          
     res.json(product);
     }
 )
 
 // adding quantity to cart
 router.put('/cart/:id', async (req, res)=>{
-    const { id } = req.params;
     const { quantity } = req.body;
     const product = await prisma.cart.update({
         where: {
@@ -226,7 +224,6 @@ router.get('/cart', async (req, res)=>{
 
 //get cart product based on product id
 router.get('/cart/:id', async (req, res)=>{
-    const { id } = req.params;
     const product = await prisma.cart.findMany({
         where: {
             productId: String(req.params.id)
